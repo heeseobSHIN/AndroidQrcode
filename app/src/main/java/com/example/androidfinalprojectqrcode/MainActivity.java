@@ -7,29 +7,66 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 
 
 public class MainActivity extends AppCompatActivity {
 
     int nCurrentPermission = 0;
     static  final int PERMISSIONS_REQUEST = 0x0000001;
+    private FirebaseAuth mAuth;
+
+    //앱을 시작할 때 로그인 되어 있는지 확인
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+        if(currentUser != null){
+            //--??//
+            currentUser.reload();
+        }
+    }
+
+    //로그인이 감지되면
+    private void updateUI(FirebaseUser currentUser) {
+        if (currentUser != null){
+        Intent intent = new Intent(MainActivity.this, activity_scanner.class);
+        startActivity(intent);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       OnChexkPermission();
+        OnChexkPermission();
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
 
-        EditText idIn = findViewById(R.id.idinputText);
+        EditText emailIn = findViewById(R.id.emailInputText);
         EditText passwordIn = findViewById(R.id.passwordinputText);
         Button SignInBtn = findViewById(R.id.signinBtn);
-        Button SignUpBtn = findViewById(R.id.signupBtn);
+        Button SignUpBtn = findViewById(R.id.goSignupBtn);
+
 
         SignUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,10 +80,63 @@ public class MainActivity extends AppCompatActivity {
         SignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, activity_scanner.class);
-                startActivity(intent);
+
+                String email = emailIn.getText().toString().trim();
+                String password = passwordIn.getText().toString().trim();
+
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+
+                                    Log.d("emailauth", "로그인 성공");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
+                                } else {
+                                    try {
+                                        throw task.getException();
+                                    } catch(FirebaseAuthInvalidCredentialsException e) {
+                                        Toast.makeText(MainActivity.this, "이메일 또는 비밀번호가 잘못되었습니다.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } catch(FirebaseAuthUserCollisionException e) {
+                                        Toast.makeText(MainActivity.this, "사용중인 계정입니다.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } catch(Exception e) {
+                                        Toast.makeText(MainActivity.this, "사용자가 없거나 등록되지 않은 이메일입니다",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    Log.w("emailauth", "로그인 실패..", task.getException());
+                                    Toast.makeText(MainActivity.this, "로그인 실패..",
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null);
+                                }
+                            }
+                        });
+
+//                Intent intent = new Intent(MainActivity.this, activity_scanner.class);
+//                startActivity(intent);
             }
         });
+
+
+        //현재 사용자 정보 호출
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            // Check if user's email is verified
+            boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+        }
 
 
     }
@@ -84,4 +174,5 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }

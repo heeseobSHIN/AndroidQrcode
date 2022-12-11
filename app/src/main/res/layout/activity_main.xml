@@ -34,10 +34,10 @@
         app:layout_constraintVertical_bias="0.683" />
 
     <Button
-        android:id="@+id/signupBtn"
+        android:id="@+id/goSignupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SignUp"
+        android:text="GoSignUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -45,45 +45,44 @@
         app:layout_constraintTop_toBottomOf="@+id/signinBtn"
         app:layout_constraintVertical_bias="0.136" />
 
-    <EditText
-        android:id="@+id/idinputText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="id : "
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/signinBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.676" />
-
-    <EditText
-        android:id="@+id/passwordinputText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="passeord : "
-        android:inputType="numberPassword"
-        app:layout_constraintBottom_toTopOf="@+id/signinBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idinputText"
-        app:layout_constraintVertical_bias="0.175" />
-
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="98dp"
         android:layout_height="82dp"
         android:layout_marginTop="36dp"
-        app:layout_constraintBottom_toTopOf="@+id/idinputText"
+        app:layout_constraintBottom_toTopOf="@+id/emailInputText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/digiqr" />
+
+    <EditText
+        android:id="@+id/emailInputText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:hint="email : "
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <EditText
+        android:id="@+id/passwordinputText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="password : "
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/signinBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailInputText"
+        app:layout_constraintVertical_bias="0.175" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
