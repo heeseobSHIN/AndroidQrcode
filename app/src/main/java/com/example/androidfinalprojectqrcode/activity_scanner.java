@@ -19,16 +19,26 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.WriteResult;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class activity_scanner extends AppCompatActivity {
 
@@ -38,6 +48,11 @@ public class activity_scanner extends AppCompatActivity {
     //현재 연결은 데이터베이스에만 딱 연결해놓고
     //키값(테이블 또는 속성)의 위치 까지는 들어가지는 않은 모습이다.
     private DatabaseReference databaseReference = database.getReference();
+
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    userData userData = new userData();
 
     TextView textView;
     private SurfaceView surfaceView;
@@ -53,12 +68,15 @@ public class activity_scanner extends AppCompatActivity {
     Date date = new Date(now);
     //Step3. 가져오고 싶은 형식으로 가져오기
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
 
     String getTime = sdf.format(date);
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scanner);
 
@@ -75,12 +93,12 @@ public class activity_scanner extends AppCompatActivity {
             @Override
             public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
                 if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED){
+                        != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 try {
                     cameraSource.start(surfaceHolder);
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -105,7 +123,7 @@ public class activity_scanner extends AppCompatActivity {
             @Override
             public void receiveDetections(@NonNull Detector.Detections<Barcode> detections) {
                 final SparseArray<Barcode> qrcode = detections.getDetectedItems();
-                if (qrcode.size() != 0){
+                if (qrcode.size() != 0) {
                     boolean post = textView.post(new Runnable() {
                         @Override
                         public void run() {
@@ -129,7 +147,32 @@ public class activity_scanner extends AppCompatActivity {
             public void onClick(View view) {
                 String Addperson = addperson.getText().toString();
                 String locationMe = locationInfo.toString();
-                userData("nameinDatabase",locationInfo,addperson.getText().toString(),getTime);
+
+                //UseFireStore
+                // Create a new user with a first and last name
+                Map<String, Object> user = new HashMap<>();
+                user.put("name", "namedatabase");
+                user.put("location", locationInfo);
+                user.put("withWho", addperson.getText().toString());
+                user.put("datetime", getTime);
+
+                // Add a new document with a generated ID
+                db.collection("users")
+                        .add(user)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+
+                //UseRealtimeDatabase
+                //userData("nameinDatabase", locationInfo, addperson.getText().toString(), getTime);
+
                 Log.d("emailauth", locationInfo);
                 Log.d("emailauth", getTime);
                 Log.d("emailauth", Addperson);
@@ -141,7 +184,15 @@ public class activity_scanner extends AppCompatActivity {
                 }
 
 
-            }});
+            }
+        });
+
+
+
+
+
+
+
     }
 
 
@@ -150,11 +201,13 @@ public class activity_scanner extends AppCompatActivity {
         //여기에서 직접 변수를 만들어서 값을 직접 넣는것도 가능합니다.
         // ex) 갓 태어난 동물만 입력해서 int age=1; 등을 넣는 경우
         //animal.java에서 선언했던 함수.
-        userData Userdata = new userData(name,location,withWho,datetime);
+        userData Userdata = new userData(name, location, withWho, datetime);
         //child는 해당 키 위치로 이동하는 함수입니다.
         //키가 없는데 "zoo"와 name같이 값을 지정한 경우 자동으로 생성합니다.
         databaseReference.child("heeseob").child(name).setValue(Userdata);
     }
+
+
 }
 
 
