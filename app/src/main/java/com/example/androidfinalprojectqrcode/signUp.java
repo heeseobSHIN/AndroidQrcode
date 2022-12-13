@@ -61,55 +61,61 @@ public class signUp extends AppCompatActivity {
                 String id = userId.toString();
                 String email = userEmail.getText().toString().trim();
                 String password = userPassword.getText().toString().trim();
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(signUp.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
 
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d("emailauth", "회원가입 성공!");
-                                    Toast.makeText(signUp.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    Log.d("emailauth", "password : " + password);
-                                    updateUI(user);
+                if (email != null && password != null && name != null && id != null) {
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(signUp.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+
+                                        // Sign in success, update UI with the signed-in user's information
+                                        Log.d("emailauth", "회원가입 성공!");
+                                        Toast.makeText(signUp.this, "회원가입 성공!", Toast.LENGTH_SHORT).show();
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Log.d("emailauth", "password : " + password);
+                                        updateUI(user);
 //                                    Intent intent = new Intent(signUp.this, MainActivity.class);
 //                                    startActivity(intent);
-                                } else {
+                                    } else {
 
-                                    //Toast.makeText(getContext(),"Registration successful", Toast.LENGTH_SHORT).show();
-                                    try {
-                                        throw task.getException();
-                                    }
-                                    // if user enters wrong email.
-                                    catch (FirebaseAuthWeakPasswordException weakPassword) {
-                                        Log.d("emailauth", "비밀번호는 6자 이상이어야 합니다.");
-                                        Toast.makeText(signUp.this, "비밀번호는 6자 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(getContext(),"Registration successful", Toast.LENGTH_SHORT).show();
+                                        try {
+                                            throw task.getException();
+                                        }
+                                        // if user enters wrong email.
+                                        catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                            Log.d("emailauth", "비밀번호는 6자 이상이어야 합니다.");
+                                            Toast.makeText(signUp.this, "비밀번호는 6자 이상이어야 합니다.", Toast.LENGTH_SHORT).show();
 
-                                        // TODO: take your actions!
-                                    }
-                                    // if user enters wrong password.
-                                    catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
-                                        Log.d("emailauth", "이메일 형식이 맞지 않습니다.");
-                                        Toast.makeText(signUp.this, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+                                            // TODO: take your actions!
+                                        }
+                                        // if user enters wrong password.
+                                        catch (FirebaseAuthInvalidCredentialsException malformedEmail) {
+                                            Log.d("emailauth", "이메일 형식이 맞지 않습니다.");
+                                            Toast.makeText(signUp.this, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
 
-                                        // TODO: Take your action
-                                    }
-                                    catch (FirebaseAuthUserCollisionException existEmail) {
-                                        Log.d("emailauth", "이미 가입된 이메일입니다.");
-                                        Toast.makeText(signUp.this, "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                            // TODO: Take your action
+                                        } catch (FirebaseAuthUserCollisionException existEmail) {
+                                            Log.d("emailauth", "이미 가입된 이메일입니다.");
+                                            Toast.makeText(signUp.this, "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
 
-                                        // TODO: Take your action
+                                            // TODO: Take your action
+                                        } catch (Exception e) {
+                                            Log.d("emailauth", "onComplete: " + e.getMessage());
+                                        }
+                                        // If sign in fails, display a message to the user.
+                                        Log.w("emailauth", "회원가입 실패..", task.getException());
+                                        updateUI(null);
                                     }
-                                    catch (Exception e) {
-                                        Log.d("emailauth", "onComplete: " + e.getMessage());
-                                    }
-                                    // If sign in fails, display a message to the user.
-                                    Log.w("emailauth", "회원가입 실패..", task.getException());
-                                    updateUI(null);
                                 }
-                            }
-                        });
+                            });
+                }//if (name == null & password == null && id == null && email == null)
+                else{
+                    Toast.makeText(signUp.this, "값을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
             }
         });
 

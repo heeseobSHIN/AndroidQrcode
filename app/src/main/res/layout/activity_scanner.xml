@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgrose">
+    android:background="@drawable/bgrose"
+    android:scrollbarSize="1000dp">
 
     <SurfaceView
         android:id="@+id/surfaceView"
@@ -23,7 +24,8 @@
         android:gravity="center"
         android:text="where is your location"
         android:textColor="#686625"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="italic"/>
 
     <EditText
         android:id="@+id/addperson"
@@ -34,7 +36,8 @@
         android:layout_marginTop="25dp"
         android:gravity="center"
         android:hint="please wait"
-        android:textColor="#686625"></EditText>
+        android:textColor="#686625"
+        android:textStyle="italic"></EditText>
 
 
     <Button
@@ -45,8 +48,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:gravity="center"
-        android:text="save current location"></Button>
-
+        android:text="save current location"
+        android:textColorLink="#998BED"
+        android:textStyle="italic"
+        android:textAllCaps="false"></Button>
 
 
 </RelativeLayout>

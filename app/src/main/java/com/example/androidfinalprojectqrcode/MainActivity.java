@@ -84,36 +84,43 @@ public class MainActivity extends AppCompatActivity {
                 String email = emailIn.getText().toString().trim();
                 String password = passwordIn.getText().toString().trim();
 
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
+                if (email != null && password != null) {
 
-                                    Log.d("emailauth", "로그인 성공");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
-                                } else {
-                                    try {
-                                        throw task.getException();
-                                    } catch(FirebaseAuthInvalidCredentialsException e) {
-                                        Toast.makeText(MainActivity.this, "이메일 또는 비밀번호가 잘못되었습니다.",
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    //추가해야함, android:textStyle="italic"스타일추가
+                                    //if (emailIn != null)
+                                    if (task.isSuccessful()) {
+
+                                        Log.d("emailauth", "로그인 성공");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        updateUI(user);
+                                    } else {
+                                        try {
+                                            throw task.getException();
+                                        } catch (FirebaseAuthInvalidCredentialsException e) {
+                                            Toast.makeText(MainActivity.this, "이메일 또는 비밀번호가 잘못되었습니다.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } catch (FirebaseAuthUserCollisionException e) {
+                                            Toast.makeText(MainActivity.this, "사용중인 계정입니다.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            Toast.makeText(MainActivity.this, "사용자가 없거나 등록되지 않은 이메일입니다",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        Log.w("emailauth", "로그인 실패..", task.getException());
+                                        Toast.makeText(MainActivity.this, "로그인 실패..",
                                                 Toast.LENGTH_SHORT).show();
-                                    } catch(FirebaseAuthUserCollisionException e) {
-                                        Toast.makeText(MainActivity.this, "사용중인 계정입니다.",
-                                                Toast.LENGTH_SHORT).show();
-                                    } catch(Exception e) {
-                                        Toast.makeText(MainActivity.this, "사용자가 없거나 등록되지 않은 이메일입니다",
-                                                Toast.LENGTH_SHORT).show();
+                                        updateUI(null);
                                     }
-
-                                    Log.w("emailauth", "로그인 실패..", task.getException());
-                                    Toast.makeText(MainActivity.this, "로그인 실패..",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
                                 }
-                            }
-                        });
+                            });
+                }else{
+                    updateUI(null);
+                }
 
 //                Intent intent = new Intent(MainActivity.this, activity_scanner.class);
 //                startActivity(intent);

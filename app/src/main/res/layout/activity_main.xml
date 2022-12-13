@@ -25,25 +25,31 @@
         android:id="@+id/signinBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         android:text="SignIn"
+        android:textAllCaps="false"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.683" />
+        app:layout_constraintVertical_bias="0.645" />
 
     <Button
         android:id="@+id/goSignupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         android:text="GoSignUp"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signinBtn"
-        app:layout_constraintVertical_bias="0.136" />
+        app:layout_constraintVertical_bias="0.136"
+        app:rippleColor="#000000" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -56,7 +62,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/digiqr" />
+        app:srcCompat="@drawable/digiqr"
+        android:textAllCaps="false"/>
 
     <EditText
         android:id="@+id/emailInputText"
