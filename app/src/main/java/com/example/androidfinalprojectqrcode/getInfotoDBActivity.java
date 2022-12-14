@@ -30,7 +30,7 @@ public class getInfotoDBActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.getdb_activity);
 
-        Button userinfo_btn = findViewById(R.id.button2);
+        Button userinfo_btn = findViewById(R.id.getDbBtn);
 
         Intent secondIntent = getIntent();
         String addperson = secondIntent.getStringExtra("addperson");
