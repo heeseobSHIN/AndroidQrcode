@@ -49,7 +49,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signinBtn"
         app:layout_constraintVertical_bias="0.136"
-        app:rippleColor="#000000" />
+        app:rippleColor="#000000"
+        android:textAllCaps="false"/>
 
     <ImageView
         android:id="@+id/imageView5"

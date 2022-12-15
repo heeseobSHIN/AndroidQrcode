@@ -8,6 +8,10 @@ android {
     namespace 'com.example.androidfinalprojectqrcode'
     compileSdk 32
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.example.androidfinalprojectqrcode"
         minSdk 21
@@ -45,4 +49,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.firebase:firebase-auth-ktx'
+    //implementation 'com.github.kenglxn.QRGen:android:2.6.0'
+//    implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
+//    implementation "com.google.zxing:core:3.3.0"
+
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -25,6 +26,8 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -180,7 +183,9 @@ public class activity_scanner extends AppCompatActivity {
                 if (locationInfo != null) {
                     Intent intent = new Intent(activity_scanner.this, getInfotoDBActivity.class);
                     intent.putExtra("addperson", Addperson);
+                    intent.putExtra("getTime", getTime);
                     startActivity(intent);
+                    Log.d("emailauth", "Intentsuccess");
                 }
 
 

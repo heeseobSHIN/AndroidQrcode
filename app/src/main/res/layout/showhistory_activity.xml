@@ -19,12 +19,14 @@
         android:id="@+id/historyBtn"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:text="Button"
+        android:background="@drawable/bg_button"
+        android:text="yyyy-MM-dd // locaion: 'url', whowith: whowith,"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:textAllCaps="false"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#80ffffff" />
+</shape>
+
+    <!--    https://pimi.tistory.com/5 여기 들어가면 투명도 나옴 그걸 색상코드 6자리 앞에 붙이면 돼-->
+    <!--내가 한거처럼 위에 80ffffff는 ffffff가 흰색이고 80만듬 (그니까 즉 50%) 투명도 줬다는 뜻 , 원하는 대로 변경-->
